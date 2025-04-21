@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from account.models import Profile
 from .models import Quiz, Category
 from django.db.models import Q
+from quiz.models import QuizSubmission
+from django.contrib import messages
 
 
 # Create your views here.
@@ -47,9 +49,23 @@ def quiz_view(request, quiz_id) :
     user_object = User.objects.get(username = request.user)
     user_profile = Profile.objects.get(user = user_object)
 
+    quiz = Quiz.objects.filter(id = quiz_id).first()
+
+    total_questions = quiz.question_set.all().count() 
+
     if request.method == "POST" :
         print("POST METHOD")
-        pass
+        score = int(request.POST.get('score', 0))
+
+        if QuizSubmission.objects.filter(user = request.user, quiz = quiz).exists() :
+            messages.success(request, f"This time you got {score} out of {total_questions}")
+            return redirect('quiz', quiz_id)
+
+        submission = QuizSubmission(user = request.user, quiz=quiz, score = score)
+        submission.save()
+
+        messages.success(request, f"Quiz Submitted Succesfully, You got {score} out of {total_questions}")
+        return redirect('quiz', quiz_id)
 
     quiz = Quiz.objects.filter(id = quiz_id).first()
     if quiz != None :
