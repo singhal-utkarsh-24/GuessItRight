@@ -51,7 +51,7 @@ def register(request) :
     context = {}
     return render(request, "register.html", context)
 
-@login_required(login_url='login')
+@login_required 
 def profile(request, username):
         # if request.user.username != username:
         #     return redirect('profile', request.user.username)
@@ -66,15 +66,16 @@ def profile(request, username):
 
     submissions = QuizSubmission.objects.filter(user = user_object2).order_by('-submitted_at')
 
+    # 
     context = {"user_profile": user_profile, "user_profile2": user_profile2, "submissions" : submissions}
     return render(request, "profile.html", context)
 
 
-@login_required(login_url='login')
+@login_required 
 def editProfile(request):
 
     user_object = request.user
-    user_profile = Profile.objects.get(user=user_object)
+    user_profile = request.user.profile
 
     #image
     if request.method == "POST" :
@@ -118,7 +119,7 @@ def editProfile(request):
     return render(request, 'profile-edit.html', context)
 
 
-@login_required(login_url='login')
+@login_required 
 def deleteProfile(request):
 
     user_object = request.user
@@ -130,8 +131,8 @@ def deleteProfile(request):
         return redirect('logout')
         
 
-    context = {"user_profile" : user_profile}
-    return render(request, 'confirm.html' , context)
+    # context = {"user_profile" : user_profile}
+    return render(request, 'confirm.html')
 
 
 def login(request) :
@@ -153,7 +154,7 @@ def login(request) :
 
     return render(request, "login.html")
 
-@login_required(login_url='login')
+@login_required
 def logout(request) :
     auth.logout(request)
     return redirect('login')

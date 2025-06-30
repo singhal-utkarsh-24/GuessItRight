@@ -9,7 +9,7 @@ from django.contrib import messages
 
 
 # Create your views here.
-@login_required(login_url = 'login')
+@login_required
 def all_quiz_view(request) :
 
     user_object = User.objects.get(username = request.user)
@@ -22,7 +22,7 @@ def all_quiz_view(request) :
     context = {"user_profile" : user_profile , "quizzes" : quizzes, "categories" : categories}
     return render(request, 'all-quiz.html' , context)
 
-@login_required(login_url = 'login')
+@login_required
 def search_view(request, category):
 
     user_object = User.objects.get(username = request.user)
@@ -43,7 +43,7 @@ def search_view(request, category):
     context = {"user_profile" : user_profile , "quizzes" : quizzes, "categories" : categories}
     return render (request, 'all-quiz.html', context)
 
-@login_required(login_url='login')
+@login_required 
 def quiz_view(request, quiz_id) :  
     
     user_object = User.objects.get(username = request.user)

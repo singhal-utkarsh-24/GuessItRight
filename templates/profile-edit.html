@@ -52,7 +52,7 @@
           </div>
           <div class="mb-3">
             <label for="exampleInputLocation" class="form-label visually-hidden">Location</label>
-            <input type="text" name = "location" value="{{user_profile.location}}" class="form-control" id="exampleInputLocation" placeholder="Location" required>
+            <input type="text" name = "location" value="{{user_profile.location|default_if_none:''}}" class="form-control" id="exampleInputLocation" placeholder="Location" required>
           </div>
           
           <div class="mb-3">
@@ -67,7 +67,7 @@
 
           <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label visually-hidden">Your Bio</label>
-            <textarea class="form-control" name = "bio" id="exampleFormControlTextarea1" rows="3" placeholder="Your Bio" required>{{user_profile.bio}}</textarea> 
+            <textarea class="form-control" name = "bio" id="exampleFormControlTextarea1" rows="3" placeholder="Your Bio" required>{{user_profile.location|default_if_none:''}}</textarea> 
           </div>
           
           <button type="submit" class="btn btn-success">Save Profile</button>

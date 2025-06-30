@@ -8,7 +8,7 @@ class Profile(models.Model):
     # email_address = models.CharField(max_length=55, unique=True, null=True)
     bio = models.TextField(blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_images', default='user.png', blank=True, null= True, verbose_name='Profile Picture')
-    location = models.CharField(max_length=100, blank=True, null= True)
+    location = models.CharField(max_length=100, blank=True, null= True, verbose_name= 'Location')
     GENDER = [
         ('male', 'male') , 
         ('Female', 'Female'), 

@@ -5,6 +5,9 @@ from .models import Category, Quiz, Question, Choice, UserRank, QuizSubmission
 admin.site.register(Category)
 admin.site.register(Quiz)
 admin.site.register(Question)
-admin.site.register(Choice)
+class ChoiceAdmin(admin.ModelAdmin) :
+    list_display = ('question' , 'text' , 'is_correct')
+
+admin.site.register(Choice, ChoiceAdmin)
 admin.site.register(UserRank)
 admin.site.register(QuizSubmission)
