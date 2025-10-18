@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -79,10 +79,21 @@ LOGIN_URL = 'login'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'guessitright_db'),  # Database name
+        'USER': os.environ.get('DB_USER', 'guessitright_user'),      # Database user
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'AshishAnu@31'), # User password
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),        # Host address
+        'PORT': os.environ.get('DB_PORT', '5432'),            # Port (default 5432)
     }
 }
 
