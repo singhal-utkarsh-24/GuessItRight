@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-import os
+
 from pathlib import Path
+import os
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,7 +136,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR/'staticfiles'
 
 STATICFILES_DIRS = [
@@ -148,3 +152,47 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+
+# ----------------------------------------------------------------------
+# PRODUCTION SETTINGS (APPLY ONLY ON RENDER)
+# ----------------------------------------------------------------------
+
+if 'RENDER' in os.environ:
+    # A. Security & Hosts
+    # Render provides this via an environment variable
+    ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
+    DEBUG = False
+
+    # B. Database Configuration
+    # Use dj-database-url to parse the external DATABASE_URL provided by Render
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+
+    # C. Static Files Configuration (for WhiteNoise)
+    # This tells Django where to collect static files on the server.
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+    # This enables the WhiteNoise storage backend for compression and caching.
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ----------------------------------------------------------------------
+# LOCAL/FALLBACK SETTINGS (Ensure your existing local DB config is here)
+# ----------------------------------------------------------------------
+
+else:
+    # If not on Render, use your local PostgreSQL setup (from the previous steps)
+    # NOTE: If you are using .env files for local development, adapt this.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DB_NAME', 'guessitright_db'),
+            'USER': os.environ.get('DB_USER', 'guessitright_user'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', 'AshishAnu@31'),
+            'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+        }
+    }
