@@ -153,6 +153,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
+
+
 # ----------------------------------------------------------------------
 # PRODUCTION SETTINGS (APPLY ONLY ON RENDER)
 # ----------------------------------------------------------------------
