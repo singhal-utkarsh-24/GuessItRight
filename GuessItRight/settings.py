@@ -103,13 +103,14 @@ DATABASES = {
     }
 }
 
-CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL", "")  # fallback empty locally
-CLOUDINARY_STORAGE = {
-    "CLOUDINARY_URL": CLOUDINARY_URL,
-}
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 
-# Use Cloudinary for default file storage (media files)
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+if CLOUDINARY_URL:
+    CLOUDINARY_STORAGE = {
+        "CLOUDINARY_URL": CLOUDINARY_URL,
+    }
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 
 
 # Password validation
