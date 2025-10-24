@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'account',
     'base', 
     'quiz',
-    'ckeditor'
+    'ckeditor',
+    "cloudinary",
+    "cloudinary_storage"
 ]
 
 MIDDLEWARE = [
@@ -100,6 +102,14 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT', '5432'),            # Port (default 5432)
     }
 }
+
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL", "")  # fallback empty locally
+CLOUDINARY_STORAGE = {
+    "CLOUDINARY_URL": CLOUDINARY_URL,
+}
+
+# Use Cloudinary for default file storage (media files)
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 
 # Password validation
