@@ -174,7 +174,7 @@ if 'RENDER' in os.environ:
     # A. Security & Hosts
     # Render provides this via an environment variable
     ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
-    DEBUG = False
+    DEBUG = TRUE
 
     # B. Database Configuration
     # Use dj-database-url to parse the external DATABASE_URL provided by Render
