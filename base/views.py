@@ -16,7 +16,7 @@ def home(request) :
 
     if request.user.is_authenticated :
         user_object = User.objects.get(username = request.user)
-        user_profile = Profile.objects.get(user = user_object)
+        user_profile = Profile.objects.get_or_create(user = user_object)
         context = {"user_profile" : user_profile, "leaderboard_users" : leaderboard_users}
     else :
         context = {"leaderboard_users" : leaderboard_users}
