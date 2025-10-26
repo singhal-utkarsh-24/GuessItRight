@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'base', 
     'quiz',
     'ckeditor',
-    "cloudinary",
-    "cloudinary_storage"
 ]
 
 MIDDLEWARE = [
@@ -103,13 +101,13 @@ DATABASES = {
     }
 }
 
-CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+# CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 
-if CLOUDINARY_URL:
-    CLOUDINARY_STORAGE = {
-        "CLOUDINARY_URL": CLOUDINARY_URL,
-    }
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+# if CLOUDINARY_URL:
+#     CLOUDINARY_STORAGE = {
+#         "CLOUDINARY_URL": CLOUDINARY_URL,
+#     }
+#     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 
 
