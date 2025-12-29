@@ -1,5 +1,6 @@
 import environ
 import os
+import dj_database_url
 
 env = environ.Env(
     # set casting, default value
@@ -85,17 +86,11 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('PGDATABASE'),
-        'USER': env('PGUSER'),
-        'PASSWORD': env('PGPASSWORD'),
-        'HOST': env('PGHOST'),
-        'PORT': env('PGPORT'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-    }
+    'default': dj_database_url.parse(
+        env('DATABASE_URL'),
+        conn_max_age=0,
+        ssl_require=True
+    )
 }
 
 
